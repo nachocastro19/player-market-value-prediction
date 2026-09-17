@@ -16,7 +16,7 @@ Applied Data Science capstone project: a supervised machine-learning application
 
 ## Repository purpose
 
-This repository is the technical workspace for code, notebooks, documentation, and reproducible project files. The official course Google Drive folders remain important for mentor review and final submission.
+This repository is the technical workspace for code, notebooks, documentation, and reproducible project files.
 
 ## Folder guide
 
