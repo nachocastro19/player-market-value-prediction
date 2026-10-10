@@ -1,0 +1,7 @@
+-r requirements.txt
+pytest==9.1.1
+duckdb==1.5.5
+matplotlib==3.10.6
+soccerdata==1.9.1
+Unidecode==1.4.0
+ipykernel==6.31.0

@@ -2,49 +2,68 @@
 
 Applied Data Science capstone project: a supervised machine-learning application that estimates professional football player market value from historical player profile, performance, competition, and valuation data.
 
-## Approved project direction
+## Project at a glance
 
-- Use a Transfermarkt-derived public dataset as the primary source.
-- Study the five major European leagues across the available historical window, expected to include 2025-26 if the required records are complete.
-- Create one modeling observation for a player at a valuation snapshot.
-- Use information available before the snapshot to predict the recorded market value at that snapshot.
-- Train and evaluate the model with a time-aware split.
-- Compare a baseline, Elastic Net, and Random Forest models.
-- Build a Streamlit application with known-player search and manual or what-if inputs.
-- Include model explanations and document limitations.
-- Treat the LLM scouting report as a stretch goal after the core ML and UI work is complete.
+Historical player-season data from 2020/21 through 2025/26 supports an expanding-window evaluation of Ridge, Random Forest, and XGBoost regressors against a previous-value baseline. Two XGBoost pipelines are used in the application: one uses a player's previous valuation, and the other provides an estimate when that value is unavailable. The held-out evaluation uses 2025/26; the production pipelines were subsequently refitted through that season for 2026/27 projections.
 
-## Repository purpose
-
-This repository is the technical workspace for code, notebooks, documentation, and reproducible project files.
+The Streamlit application provides player discovery, individual projections, scenario analysis, model explanations, similar-player suggestions, and player comparison. See [the report](docs/report.md) for methods, results, and limitations. The application estimates published market values, not transfer fees.
 
 ## Folder guide
 
 | Folder | Purpose |
 |---|---|
-| `data/raw/` | Original downloaded data. Kept out of Git unless we deliberately decide otherwise. |
-| `data/processed/` | Cleaned extracts used for modeling. Large generated files stay out of Git. |
-| `notebooks/` | Exploratory analysis and documented experiments. |
-| `src/` | Reusable Python code for loading, cleaning, feature engineering, training, and evaluation. |
+| `data/raw/` | Downloaded source CSVs, excluded from Git. |
+| `data/processed/` | Modeling and inference datasets, mappings, and the generated local database. |
+| `notebooks/` | EDA, modeling, production refit, and current-season data preparation. |
+| `scripts/` and `sql/` | Database setup, asset preparation, and data checks. |
 | `app/` | Streamlit application code. |
-| `models/` | Saved preprocessing and model artifacts. |
-| `reports/` | Figures, tables, and written analysis outputs. |
-| `docs/` | Data dictionary, decisions, setup notes, and project documentation. |
-| `tests/` | Small checks for reusable code as it develops. |
+| `models/` | Evaluated and production model artifacts with metadata. |
+| `docs/` | Report, figures, data dictionary, and entity diagrams. |
+| `tests/` | Automated application and prediction checks. |
+| `external/football-logos/` | Club badge Git submodule used by the app. |
 
-## Learning rules for this project
+## Dependency files
 
-1. Before coding, write down the question or hypothesis the work should answer.
-2. Use notebooks for investigation and explanation; move repeated or reusable logic into `src/`.
-3. Keep a short record of important decisions, assumptions, and rejected alternatives.
-4. Make small Git commits with messages that explain the change.
-5. Never commit passwords, API keys, `.env` files, or private credentials.
-6. Do not trust a metric until we understand the split, target alignment, leakage risks, and business meaning.
+| File | Use it for | Includes |
+|---|---|---|
+| `requirements.txt` | Running or deploying the Streamlit app | Only the app's runtime dependencies. |
+| `requirements-dev.txt` | Reproducing the analysis, preparing data, running notebooks, or running tests | All runtime dependencies (via `-r requirements.txt`) plus research and test tools such as DuckDB, SoccerData, Matplotlib, an IPython notebook kernel, and pytest. |
 
-## Planned setup
+Install **one** file for your purpose. A development installation already includes the app dependencies; installing both files separately is unnecessary.
 
-The initial environment will use Python with the packages listed in `requirements.txt`. Exact package versions will be recorded after the working environment is created and tested.
+## Local setup
 
-## Current status
+Validated locally with Python 3.13. Initialize the badge submodule and create an isolated environment:
 
-Repository scaffold created. The next learning milestone is to create the environment, record the Python and package versions, and inspect the source data before writing modeling code.
+```powershell
+git submodule update --init --recursive
+py -m venv .venv
+```
+
+To run or deploy the app, install only the runtime dependencies:
+
+```powershell
+.\.venv\Scripts\python -m pip install -r requirements.txt
+```
+
+The app also needs `data/processed/current_season_inference_2026_27.csv`, `models/production_metadata.json`, and both `*_production.joblib` files. These small deployment artifacts must be included when publishing the repository. Downloaded source CSVs and the generated DuckDB database are excluded from Git.
+
+Run the Streamlit application:
+
+```powershell
+.\.venv\Scripts\python -m streamlit run app\app.py
+```
+
+For notebooks, the database build script, and automated checks, use the development requirements instead. This command can also add the extra packages to an environment that already has the runtime dependencies:
+
+```powershell
+.\.venv\Scripts\python -m pip install -r requirements-dev.txt
+```
+
+Run the automated checks:
+
+```powershell
+.\.venv\Scripts\python -m pytest -q tests
+```
+
+The historical source CSVs are available from the [Transfermarkt-derived Kaggle dataset](https://www.kaggle.com/datasets/davidcariboo/player-scores). Place the 12 source tables in `data/raw/` before running `scripts/build_local_database.py`. Research notebooks use additional processed datasets; see their first cells for input paths. Current-season FBref data is collected separately in `notebooks/05_new_data_scraping.ipynb`, and results may change when the source website changes.

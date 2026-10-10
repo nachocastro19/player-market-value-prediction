@@ -1,0 +1,100 @@
+---
+id: 07cb261b-e9ea-4e08-8811-15de6b64e412
+---
+erDiagram
+
+    PLAYERS {
+        BIGINT player_id PK
+        DATE date_of_birth
+        VARCHAR position
+        VARCHAR sub_position
+        VARCHAR foot
+        BIGINT height_in_cm
+        BIGINT current_club_id FK
+    }
+
+    APPEARANCES {
+        VARCHAR appearance_id PK
+        BIGINT game_id FK
+        BIGINT player_id FK
+        BIGINT player_club_id FK
+        VARCHAR competition_id FK
+        DATE date
+        BIGINT minutes_played
+        BIGINT goals
+        BIGINT assists
+        BIGINT yellow_cards
+        BIGINT red_cards
+    }
+
+    GAMES {
+        BIGINT game_id PK
+        VARCHAR competition_id FK
+        BIGINT season
+        DATE date
+        BIGINT home_club_id FK
+        BIGINT away_club_id FK
+        BIGINT home_club_goals
+        BIGINT away_club_goals
+    }
+
+    CLUB_GAMES {
+        BIGINT game_id PK, FK
+        BIGINT club_id PK, FK
+        BIGINT opponent_id FK
+        BIGINT own_goals
+        BIGINT opponent_goals
+        BIGINT own_position
+        BIGINT opponent_position
+        BIGINT is_win
+    }
+
+    PLAYER_VALUATIONS {
+        BIGINT player_id PK, FK
+        DATE date PK
+        BIGINT market_value_in_eur
+        BIGINT current_club_id FK
+        VARCHAR player_club_domestic_competition_id
+    }
+
+    TRANSFERS {
+        BIGINT player_id FK
+        DATE transfer_date
+        BIGINT from_club_id FK
+        BIGINT to_club_id FK
+        DOUBLE transfer_fee
+        DOUBLE market_value_in_eur
+    }
+
+    CLUBS {
+        BIGINT club_id PK
+        VARCHAR name
+        VARCHAR domestic_competition_id FK
+        DOUBLE average_age
+        BIGINT squad_size
+    }
+
+    COMPETITIONS {
+        VARCHAR competition_id PK
+        VARCHAR name
+        VARCHAR type
+        VARCHAR sub_type
+        VARCHAR country_name
+    }
+
+
+    PLAYERS ||--o{ APPEARANCES : "has"
+    PLAYERS ||--o{ PLAYER_VALUATIONS : "valued at"
+    PLAYERS ||--o{ TRANSFERS : "transferred"
+
+    GAMES ||--o{ APPEARANCES : "contains"
+    GAMES ||--|{ CLUB_GAMES : "represented by"
+
+    CLUBS ||--o{ APPEARANCES : "player club"
+    CLUBS ||--o{ CLUB_GAMES : "plays"
+    CLUBS ||--o{ TRANSFERS : "from / to"
+    CLUBS ||--o{ PLAYER_VALUATIONS : "club at valuation"
+
+    COMPETITIONS ||--o{ GAMES : "contains"
+    COMPETITIONS ||--o{ APPEARANCES : "contains"
+    COMPETITIONS ||--o{ CLUBS : "domestic competition"

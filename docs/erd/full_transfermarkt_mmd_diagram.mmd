@@ -1,0 +1,156 @@
+%% Transfermarkt project ERD v1
+%% Solid relationships = validated with complete/near-complete coverage in the current database.
+%% Dashed/annotated relationships = logical FK with incomplete coverage or not yet validated.
+
+erDiagram
+    COUNTRIES {
+        BIGINT country_id PK
+        VARCHAR country_name
+        VARCHAR country_code
+        VARCHAR confederation
+    }
+
+    COMPETITIONS {
+        VARCHAR competition_id PK
+        BIGINT country_id FK
+        VARCHAR name
+        VARCHAR type
+        VARCHAR sub_type
+    }
+
+    NATIONAL_TEAMS {
+        BIGINT national_team_id PK
+        BIGINT country_id FK
+        VARCHAR name
+        BIGINT fifa_ranking
+    }
+
+    CLUBS {
+        BIGINT club_id PK
+        VARCHAR domestic_competition_id FK
+        VARCHAR name
+        BIGINT squad_size
+        DOUBLE average_age
+        BIGINT last_season
+    }
+
+    PLAYERS {
+        BIGINT player_id PK
+        BIGINT current_club_id FK
+        BIGINT current_national_team_id FK
+        TIMESTAMP date_of_birth
+        VARCHAR position
+        VARCHAR sub_position
+        VARCHAR foot
+        BIGINT market_value_in_eur
+    }
+
+    GAMES {
+        BIGINT game_id PK
+        VARCHAR competition_id FK
+        BIGINT home_club_id FK
+        BIGINT away_club_id FK
+        BIGINT season
+        DATE date
+        BIGINT home_club_goals
+        BIGINT away_club_goals
+    }
+
+    CLUB_GAMES {
+        BIGINT game_id PK, FK
+        BIGINT club_id PK, FK
+        BIGINT opponent_id FK
+        BIGINT own_goals
+        BIGINT opponent_goals
+        BIGINT own_position
+        BIGINT opponent_position
+        BIGINT is_win
+    }
+
+    APPEARANCES {
+        VARCHAR appearance_id PK
+        BIGINT game_id FK
+        BIGINT player_id FK
+        BIGINT player_club_id FK
+        BIGINT player_current_club_id FK
+        VARCHAR competition_id FK
+        DATE date
+        BIGINT goals
+        BIGINT assists
+        BIGINT minutes_played
+    }
+
+    PLAYER_VALUATIONS {
+        BIGINT player_id PK, FK
+        DATE date PK
+        BIGINT market_value_in_eur
+        BIGINT current_club_id FK
+        VARCHAR player_club_domestic_competition_id FK
+    }
+
+    TRANSFERS {
+        BIGINT player_id FK
+        DATE transfer_date
+        BIGINT from_club_id FK
+        BIGINT to_club_id FK
+        VARCHAR transfer_season
+        DOUBLE transfer_fee
+        DOUBLE market_value_in_eur
+    }
+
+    GAME_LINEUPS {
+        VARCHAR game_lineups_id PK
+        BIGINT game_id FK
+        BIGINT player_id FK
+        BIGINT club_id FK
+        DATE date
+        VARCHAR type
+        VARCHAR position
+        BIGINT team_captain
+    }
+
+    GAME_EVENTS {
+        VARCHAR game_event_id PK
+        BIGINT game_id FK
+        BIGINT club_id FK
+        BIGINT player_id FK
+        BIGINT player_in_id FK
+        BIGINT player_assist_id FK
+        DATE date
+        BIGINT minute
+        VARCHAR type
+    }
+
+    COUNTRIES ||..o{ COMPETITIONS : "country_id (logical)"
+    COUNTRIES ||..o{ NATIONAL_TEAMS : "country_id (logical)"
+
+    COMPETITIONS ||..o{ CLUBS : "domestic_competition_id (partial)"
+    COMPETITIONS ||..o{ GAMES : "competition_id (partial)"
+    COMPETITIONS ||..o{ APPEARANCES : "competition_id (partial)"
+    COMPETITIONS ||..o{ PLAYER_VALUATIONS : "domestic_competition_id (logical)"
+
+    CLUBS ||..o{ PLAYERS : "current_club_id (partial/snapshot)"
+    NATIONAL_TEAMS ||..o{ PLAYERS : "current_national_team_id (logical)"
+
+    PLAYERS ||--o{ APPEARANCES : "player_id"
+    PLAYERS ||--o{ PLAYER_VALUATIONS : "player_id"
+    PLAYERS ||--o{ TRANSFERS : "player_id"
+    PLAYERS ||..o{ GAME_LINEUPS : "player_id (partial historical coverage)"
+    PLAYERS ||..o{ GAME_EVENTS : "player/player_in/player_assist (logical)"
+
+    GAMES ||--o{ APPEARANCES : "game_id"
+    GAMES ||--o{ GAME_LINEUPS : "game_id"
+    GAMES ||--o{ CLUB_GAMES : "game_id"
+    GAMES ||..o{ GAME_EVENTS : "game_id (logical)"
+
+    CLUBS ||..o{ GAMES : "home_club_id (partial)"
+    CLUBS ||..o{ GAMES : "away_club_id (partial)"
+    CLUBS ||--o{ CLUB_GAMES : "club_id"
+    CLUBS ||..o{ CLUB_GAMES : "opponent_id (partial)"
+    CLUBS ||..o{ APPEARANCES : "player_club_id (partial)"
+    CLUBS ||..o{ APPEARANCES : "player_current_club_id (snapshot/logical)"
+    CLUBS ||..o{ PLAYER_VALUATIONS : "current_club_id (partial)"
+    CLUBS ||..o{ TRANSFERS : "from_club_id (partial)"
+    CLUBS ||..o{ TRANSFERS : "to_club_id (partial)"
+    CLUBS ||--o{ GAME_LINEUPS : "club_id"
+    CLUBS ||..o{ GAME_EVENTS : "club_id (logical)"
