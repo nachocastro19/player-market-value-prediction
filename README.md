@@ -20,7 +20,7 @@ The Streamlit application provides player discovery, individual projections, sce
 | `models/` | Evaluated and production model artifacts with metadata. |
 | `docs/` | Report, figures, data dictionary, and entity diagrams. |
 | `tests/` | Automated application and prediction checks. |
-| `external/football-logos/` | Club badge Git submodule used by the app. |
+| `app/assets/club_badges/` | Club badges bundled with the app for deployment. |
 
 ## Dependency files
 
@@ -33,10 +33,9 @@ Install **one** file for your purpose. A development installation already includ
 
 ## Local setup
 
-Validated locally with Python 3.13. Initialize the badge submodule and create an isolated environment:
+Validated locally with Python 3.13. Create an isolated environment:
 
 ```powershell
-git submodule update --init --recursive
 py -m venv .venv
 ```
 
@@ -47,6 +46,8 @@ To run or deploy the app, install only the runtime dependencies:
 ```
 
 The app also needs `data/processed/current_season_inference_2026_27.csv`, `models/production_metadata.json`, and both `*_production.joblib` files. These small deployment artifacts must be included when publishing the repository. Downloaded source CSVs and the generated DuckDB database are excluded from Git.
+
+Club badges in `app/assets/club_badges/` are bundled with the app so deployment does not depend on a Git submodule. The images come from [luukhopman/football-logos](https://github.com/luukhopman/football-logos); club crests remain the property of their respective rights holders. To refresh the badges, clone or download that repository separately, then run `python scripts/prepare_club_badges.py --source PATH_TO_FOOTBALL_LOGOS/logos` and commit the updated assets.
 
 Run the Streamlit application:
 
