@@ -6,7 +6,7 @@ from pathlib import Path
 
 APP_DIR = Path(__file__).resolve().parent
 PROJECT_ROOT = APP_DIR.parent
-TEAM_LOGO_ROOT = PROJECT_ROOT / "external" / "football-logos" / "logos"
+TEAM_LOGO_ROOT = APP_DIR / "assets" / "club_badges"
 VISUAL_IDENTITY_ROOT = APP_DIR / "visual_identity"
 BRAND_MARK = VISUAL_IDENTITY_ROOT / "transferlens_mark_universal.png"
 BRAND_WORDMARK = VISUAL_IDENTITY_ROOT / "new_svg_header.svg"
