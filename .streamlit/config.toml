@@ -1,0 +1,26 @@
+[theme]
+headingFont = "Manrope:https://fonts.googleapis.com/css2?family=Manrope:wght@600;700&display=swap"
+
+[theme.light]
+primaryColor = "#087A56"
+backgroundColor = "#FFFFFF"
+secondaryBackgroundColor = "#F4F7F6"
+textColor = "#0B1320"
+linkColor = "#087A56"
+borderColor = "#D5E1DC"
+greenColor = "#087A56"
+baseRadius = "medium"
+showWidgetBorder = true
+linkUnderline = false
+
+[theme.dark]
+primaryColor = "#087A56"
+backgroundColor = "#0B1320"
+secondaryBackgroundColor = "#142131"
+textColor = "#F5FBF7"
+linkColor = "#2DEB78"
+borderColor = "#2B3948"
+greenColor = "#2DEB78"
+baseRadius = "medium"
+showWidgetBorder = true
+linkUnderline = false

@@ -1,0 +1,164 @@
+table_name,column_name,data_type,source_nullable,key_role,description,ml_role_notes
+appearances,appearance_id,VARCHAR,YES,PK,Unique identifier for a player appearance,Identifier
+appearances,game_id,BIGINT,YES,FK,Match identifier,Join key to games
+appearances,player_id,BIGINT,YES,FK,Player identifier,Join key to players
+appearances,player_club_id,BIGINT,YES,FK,Club represented by the player in the match,Historical club feature; partial club coverage
+appearances,player_current_club_id,BIGINT,YES,FK,Player's current club identifier recorded by source,Snapshot / potential leakage risk
+appearances,date,DATE,YES,—,Date of the appearance,Temporal feature / cutoff control
+appearances,player_name,VARCHAR,YES,—,Player name,Descriptive; generally excluded from model
+appearances,competition_id,VARCHAR,YES,FK,Competition in which the match was played,Competition feature / join key
+appearances,yellow_cards,BIGINT,YES,—,Yellow cards received in the appearance,Performance feature
+appearances,red_cards,BIGINT,YES,—,Red cards received in the appearance,Performance feature
+appearances,goals,BIGINT,YES,—,Goals scored,Performance feature
+appearances,assists,BIGINT,YES,—,Assists recorded,Performance feature
+appearances,minutes_played,BIGINT,YES,—,Minutes played,Core performance/exposure feature
+club_games,game_id,BIGINT,YES,PK/FK,Match identifier,Join key to games
+club_games,club_id,BIGINT,YES,PK/FK,Club represented by the row,Join key to clubs
+club_games,own_goals,BIGINT,YES,—,Goals scored by the club,Club-performance feature
+club_games,own_position,BIGINT,YES,—,League/table position associated with the club,Potential club-strength feature
+club_games,own_manager_name,VARCHAR,YES,—,Club manager recorded for the game,Possible future categorical feature
+club_games,opponent_id,BIGINT,YES,FK,Identifier of opposing club,Join key; incomplete parent coverage
+club_games,opponent_goals,BIGINT,YES,—,Goals scored by the opponent,Club-performance feature
+club_games,opponent_position,BIGINT,YES,—,League/table position associated with opponent,Opponent-strength feature
+club_games,opponent_manager_name,VARCHAR,YES,—,Opponent manager,Low-priority / future feature
+club_games,hosting,VARCHAR,YES,—,Indicates whether club was home or away,Match-context feature
+club_games,is_win,BIGINT,YES,—,Indicator showing whether the club won,Core derived club-performance feature
+clubs,club_id,BIGINT,YES,PK,Unique club identifier,Identifier / join key
+clubs,club_code,VARCHAR,YES,—,Source-specific club code,Metadata
+clubs,name,VARCHAR,YES,—,Club name,Descriptive / possible categorical feature
+clubs,domestic_competition_id,VARCHAR,YES,FK,Club's domestic competition,Join key to competitions
+clubs,total_market_value,VARCHAR,YES,—,Total squad market value as represented by source,Snapshot / leakage risk
+clubs,squad_size,BIGINT,YES,—,Number of players in club squad,Snapshot; use only if temporally aligned
+clubs,average_age,DOUBLE,YES,—,Average squad age,Snapshot; possible club feature
+clubs,foreigners_number,BIGINT,YES,—,Number of foreign players in squad,Snapshot / optional feature
+clubs,foreigners_percentage,DOUBLE,YES,—,Percentage of foreign players,Snapshot / optional feature
+clubs,national_team_players,BIGINT,YES,—,Number of national-team players in squad,Potential club-reputation proxy; snapshot
+clubs,stadium_name,VARCHAR,YES,—,Club stadium name,Metadata
+clubs,stadium_seats,BIGINT,YES,—,Stadium capacity,Possible club-size proxy
+clubs,net_transfer_record,VARCHAR,YES,—,Net transfer record as represented by source,Requires transformation; snapshot
+clubs,coach_name,VARCHAR,YES,—,Current/recorded coach,Snapshot / low priority
+clubs,last_season,BIGINT,YES,—,Latest season associated with club in source,Coverage metadata
+clubs,filename,VARCHAR,YES,—,Source file reference,Technical metadata; exclude from ML
+clubs,url,VARCHAR,YES,—,Transfermarkt/source URL,Metadata; exclude from ML
+competitions,competition_id,VARCHAR,YES,PK,Unique competition identifier,Identifier / join key
+competitions,competition_code,VARCHAR,YES,—,Source competition code,Metadata
+competitions,name,VARCHAR,YES,—,Competition name,Descriptive / categorical feature
+competitions,sub_type,VARCHAR,YES,—,Competition subtype,Potential categorical feature
+competitions,type,VARCHAR,YES,—,Competition type,Potential categorical feature
+competitions,country_id,BIGINT,YES,FK,Associated country identifier,Logical join to countries
+competitions,country_name,VARCHAR,YES,—,Associated country name,Descriptive
+competitions,domestic_league_code,VARCHAR,YES,—,Code for associated domestic league,Competition metadata
+competitions,confederation,VARCHAR,YES,—,Football confederation,Possible geographical/context feature
+competitions,total_clubs,BIGINT,YES,—,Number of participating/associated clubs,Competition-level metadata
+competitions,url,VARCHAR,YES,—,Source URL,Metadata; exclude from ML
+countries,country_id,BIGINT,YES,PK,Unique country identifier,Identifier
+countries,country_name,VARCHAR,YES,—,Country name,Descriptive / possible contextual feature
+countries,country_code,VARCHAR,YES,—,Country code,Metadata
+countries,confederation,VARCHAR,YES,—,Football confederation,Contextual feature
+countries,total_clubs,BIGINT,YES,—,Number of clubs represented for the country,Aggregate/source metadata
+countries,total_players,BIGINT,YES,—,Number of players represented,Aggregate/source metadata
+countries,average_age,DOUBLE,YES,—,Average player age represented for country,Aggregate/source metadata
+countries,url,VARCHAR,YES,—,Source URL,Metadata; exclude from ML
+game_events,game_event_id,VARCHAR,YES,PK,Unique event identifier,Identifier
+game_events,date,DATE,YES,—,Match/event date,Temporal field
+game_events,game_id,BIGINT,YES,FK,Match identifier,Join key to games
+game_events,minute,BIGINT,YES,—,Minute in which event occurred,Event-level feature
+game_events,type,VARCHAR,YES,—,Event type,Potential future feature
+game_events,club_id,BIGINT,YES,FK,Club associated with event,Logical club join
+game_events,club_name,VARCHAR,YES,—,Club name associated with event,Descriptive
+game_events,player_id,BIGINT,YES,FK,Primary player associated with event,Logical player join
+game_events,description,VARCHAR,YES,—,Text description of event,Unstructured metadata
+game_events,player_in_id,BIGINT,YES,FK,"Incoming player, typically for substitution events",Logical player join
+game_events,player_assist_id,BIGINT,YES,FK,Player credited with assist where applicable,Logical player join
+game_lineups,game_lineups_id,VARCHAR,YES,PK,Unique lineup-record identifier,Identifier
+game_lineups,date,DATE,YES,—,Match date,Temporal field
+game_lineups,game_id,BIGINT,YES,FK,Match identifier,Join key to games
+game_lineups,player_id,BIGINT,YES,FK,Player identifier,Logical join to players; broad historical coverage
+game_lineups,club_id,BIGINT,YES,FK,Club represented in game,Join key to clubs
+game_lineups,player_name,VARCHAR,YES,—,Player name,Descriptive
+game_lineups,type,VARCHAR,YES,—,"Type of lineup entry, such as starting or substitute depending on source values",Potential future feature
+game_lineups,position,VARCHAR,YES,—,Position recorded for player in lineup,Potential positional feature
+game_lineups,number,VARCHAR,YES,—,Squad/shirt number,Low-priority metadata
+game_lineups,team_captain,BIGINT,YES,—,Indicates whether player was team captain,Potential reputation/leadership feature
+games,game_id,BIGINT,YES,PK,Unique match identifier,Identifier / central join key
+games,competition_id,VARCHAR,YES,FK,Competition identifier,Join to competitions
+games,season,BIGINT,YES,—,Season associated with match,Core temporal grouping variable
+games,round,VARCHAR,YES,—,Competition round,Match context
+games,date,DATE,YES,—,Match date,Core temporal field / cutoff control
+games,home_club_id,BIGINT,YES,FK,Home team identifier,Logical club join
+games,away_club_id,BIGINT,YES,FK,Away team identifier,Logical club join
+games,home_club_goals,BIGINT,YES,—,Goals scored by home team,Match/club-performance feature
+games,away_club_goals,BIGINT,YES,—,Goals scored by away team,Match/club-performance feature
+games,home_club_position,BIGINT,YES,—,Home team's table position,Potential club-strength feature
+games,away_club_position,BIGINT,YES,—,Away team's table position,Potential opponent-strength feature
+games,home_club_manager_name,VARCHAR,YES,—,Home-team manager,Low-priority / future feature
+games,away_club_manager_name,VARCHAR,YES,—,Away-team manager,Low-priority / future feature
+games,stadium,VARCHAR,YES,—,Match stadium,Metadata
+games,attendance,BIGINT,YES,—,Match attendance,Possible club/popularity context feature
+games,referee,VARCHAR,YES,—,Match referee,Low-priority metadata
+games,url,VARCHAR,YES,—,Source URL,Metadata; exclude from ML
+games,home_club_formation,VARCHAR,YES,—,Home team's recorded formation,Potential future tactical feature
+games,away_club_formation,VARCHAR,YES,—,Away team's recorded formation,Potential future tactical feature
+games,home_club_name,VARCHAR,YES,—,Home club name,Descriptive
+games,away_club_name,VARCHAR,YES,—,Away club name,Descriptive
+games,aggregate,VARCHAR,YES,—,Aggregate score information where applicable,Competition/match metadata
+games,competition_type,VARCHAR,YES,—,Competition classification,Potential contextual feature
+national_teams,national_team_id,BIGINT,YES,PK,Unique national-team identifier,Identifier
+national_teams,name,VARCHAR,YES,—,National team name,Descriptive
+national_teams,team_code,VARCHAR,YES,—,National-team code,Metadata
+national_teams,country_id,BIGINT,YES,FK,Country represented,Logical join to countries
+national_teams,country_name,VARCHAR,YES,—,Country name,Descriptive
+national_teams,country_code,VARCHAR,YES,—,Country code,Metadata
+national_teams,confederation,VARCHAR,YES,—,Football confederation,Contextual feature
+national_teams,team_image_url,VARCHAR,YES,—,Team image URL,Metadata
+national_teams,squad_size,BIGINT,YES,—,Number of players in national-team squad,Snapshot metadata
+national_teams,average_age,DOUBLE,YES,—,Average squad age,Snapshot metadata
+national_teams,foreigners_number,BIGINT,YES,—,Source-provided foreign-player count,Snapshot metadata
+national_teams,foreigners_percentage,DOUBLE,YES,—,Source-provided foreign-player percentage,Snapshot metadata
+national_teams,total_market_value,BIGINT,YES,—,Aggregate national-team market value,Snapshot / leakage risk
+national_teams,coach_name,VARCHAR,YES,—,National-team coach,Snapshot metadata
+national_teams,fifa_ranking,BIGINT,YES,—,FIFA ranking recorded by source,Potential future reputation feature; temporal alignment required
+national_teams,last_season,BIGINT,YES,—,Latest season associated with entity,Coverage metadata
+national_teams,url,VARCHAR,YES,—,Source URL,Metadata; exclude from ML
+player_valuations,player_id,BIGINT,YES,PK/FK,Player identifier,Join key to players
+player_valuations,date,DATE,YES,PK (composite),Valuation date,Core temporal field
+player_valuations,market_value_in_eur,BIGINT,YES,—,Transfermarkt market value in euros,Primary target candidate
+player_valuations,current_club_name,VARCHAR,YES,—,Club name recorded alongside valuation,Historical context; temporal semantics should be verified
+player_valuations,current_club_id,BIGINT,YES,FK,Club identifier recorded alongside valuation,Logical club join; incomplete parent coverage
+player_valuations,player_club_domestic_competition_id,VARCHAR,YES,FK,Domestic competition associated with player's club,Competition-context feature / logical join
+players,player_id,BIGINT,YES,PK,Unique player identifier,Identifier / primary join key
+players,first_name,VARCHAR,YES,—,Player first name,Descriptive; exclude from ML
+players,last_name,VARCHAR,YES,—,Player surname,Descriptive; exclude from ML
+players,name,VARCHAR,YES,—,Player display/full name,Descriptive; exclude from ML
+players,last_season,BIGINT,YES,—,Latest season represented for player,Coverage metadata / snapshot
+players,current_club_id,BIGINT,YES,FK,Player's current club,Snapshot / potential leakage risk
+players,player_code,VARCHAR,YES,—,Source-specific player code,Metadata
+players,country_of_birth,VARCHAR,YES,—,Country where player was born,Possible player characteristic
+players,city_of_birth,VARCHAR,YES,—,City where player was born,Low-priority player characteristic
+players,country_of_citizenship,VARCHAR,YES,—,Player citizenship/nationality,Potential feature
+players,date_of_birth,TIMESTAMP,YES,—,Player date of birth,Core feature used to derive age at cutoff
+players,sub_position,VARCHAR,YES,—,Detailed playing position,Core categorical feature
+players,position,VARCHAR,YES,—,General playing position,Core categorical feature
+players,foot,VARCHAR,YES,—,Preferred foot,Feature candidate
+players,height_in_cm,BIGINT,YES,—,Player height in centimetres,Feature candidate
+players,contract_expiration_date,TIMESTAMP,YES,—,Current recorded contract expiration date,Snapshot / temporal leakage risk unless historically aligned
+players,agent_name,VARCHAR,YES,—,Player's recorded agent,Possible future/reputation feature; snapshot
+players,image_url,VARCHAR,YES,—,Player image URL,Metadata; exclude from ML
+players,international_caps,BIGINT,YES,—,Recorded senior international appearances,Potential reputation feature; cumulative snapshot / leakage risk
+players,international_goals,BIGINT,YES,—,Recorded senior international goals,Potential reputation feature; cumulative snapshot / leakage risk
+players,current_national_team_id,BIGINT,YES,FK,Player's current national-team identifier,Snapshot / optional join
+players,url,VARCHAR,YES,—,Source URL,Metadata; exclude from ML
+players,current_club_domestic_competition_id,VARCHAR,YES,FK,Domestic competition of current club,Snapshot / potential leakage risk
+players,current_club_name,VARCHAR,YES,—,Current club name,Snapshot / potential leakage risk
+players,market_value_in_eur,BIGINT,YES,—,Player's current market value,Strong target-leakage risk for historical prediction
+players,highest_market_value_in_eur,BIGINT,YES,—,Highest market value recorded for player,Strong future-information leakage risk
+transfers,player_id,BIGINT,YES,FK / composite candidate,Player involved in transfer,Join key to players
+transfers,transfer_date,DATE,YES,Composite candidate,Date of transfer,Core temporal field
+transfers,transfer_season,VARCHAR,YES,—,Football season associated with transfer,Temporal grouping
+transfers,from_club_id,BIGINT,YES,FK / composite candidate,Origin club identifier,Historical transfer feature; incomplete club coverage
+transfers,to_club_id,BIGINT,YES,FK / composite candidate,Destination club identifier,Historical transfer feature; incomplete club coverage
+transfers,from_club_name,VARCHAR,YES,—,Origin club name,Descriptive; useful when club dimension is missing
+transfers,to_club_name,VARCHAR,YES,—,Destination club name,Descriptive; useful when club dimension is missing
+transfers,transfer_fee,DOUBLE,YES,—,Reported transfer fee,Historical transfer-value feature if known before prediction cutoff
+transfers,market_value_in_eur,DOUBLE,YES,—,Player market value associated with transfer,Historical value feature; temporal alignment required
+transfers,player_name,VARCHAR,YES,—,Player name,Descriptive; generally excluded from model
