@@ -10,6 +10,7 @@ from __future__ import annotations
 
 import base64
 from io import BytesIO
+import unicodedata
 
 import pandas as pd
 import streamlit as st
@@ -386,47 +387,26 @@ with st.container(border=True):
     comparison_options = players_df.sort_values(
         ["player", "team", "player_key"]
     )
+
+    def comparison_search_label(row: pd.Series) -> str:
+        """Keep the single multiselect searchable without accent-sensitive matches."""
+        label = f"{row['player']} · {row['team']} · {row['position']}"
+        return "".join(
+            character
+            for character in unicodedata.normalize("NFKD", label)
+            if not unicodedata.combining(character)
+        )
+
     comparison_labels = {
-        row.player_id: f"{row.player} · {row.team} · {row.position}"
-        for row in comparison_options.itertuples(index=False)
-    }
-    comparison_labels = {
-        row["player_key"]: f"{row['player']} · {row['team']} · {row['position']}"
+        row["player_key"]: comparison_search_label(row)
         for _, row in comparison_options.iterrows()
     }
-    comparison_search = st.text_input(
-        "Search players to compare",
-        type="search",
-        placeholder="Search by player name or club (accents optional)",
-        icon=":material/search:",
-        live="300ms",
-        key="compare_player_search",
-        persist_state="session",
-    )
-    selected_comparison_keys = st.session_state.get("compare_player_keys", [])
-    if comparison_search:
-        normalized_search = normalize_search_text(comparison_search).strip()
-        matching_keys = comparison_options.loc[
-            comparison_options.apply(
-                lambda row: normalized_search
-                in normalize_search_text(
-                    f'{row["player"]} {row["team"]} {row["position"]}'
-                ),
-                axis=1,
-            ),
-            "player_key",
-        ].tolist()
-        comparison_option_keys = list(
-            dict.fromkeys([*matching_keys, *selected_comparison_keys])
-        )
-    else:
-        comparison_option_keys = comparison_options["player_key"].tolist()
     compared_player_keys = st.multiselect(
         "Choose two or three players",
-        options=comparison_option_keys,
+        options=comparison_options["player_key"].tolist(),
         format_func=comparison_labels.__getitem__,
         max_selections=3,
-        placeholder="Search players by name or club…",
+        placeholder="Search players by name, club, or position…",
         filter_mode="contains",
         select_all=False,
         key="compare_player_keys",
