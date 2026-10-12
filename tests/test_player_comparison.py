@@ -1,3 +1,11 @@
+# -------------------------------------------------------------------------
+# AI USAGE CITATION
+# Tool: ChatGPT (OpenAI, 2026)
+# Prompt (summary): Add position-aware player comparisons with
+# relevant performance rates and a side-by-side display.
+# Usage: These tests check the AI-assisted comparison rules and formatting.
+# -------------------------------------------------------------------------
+
 import pandas as pd
 import pytest
 

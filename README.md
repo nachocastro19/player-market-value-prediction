@@ -19,7 +19,9 @@ The Streamlit application provides player discovery, individual projections, sce
 | `app/` | Streamlit application code. |
 | `models/` | Evaluated and production model artifacts with metadata. |
 | `docs/` | Report, figures, data dictionary, and entity diagrams. |
+| `docs/images/` | Figures and screenshots used by the report. |
 | `tests/` | Automated application and prediction checks. |
+| `app/visual_identity/` | TransferLens branding and its [AI usage citation](app/visual_identity/README.md). |
 | `app/assets/club_badges/` | Club badges bundled with the app for deployment. |
 
 ## Dependency files

@@ -1,3 +1,11 @@
+# -------------------------------------------------------------------------
+# AI USAGE CITATION
+# Tool: ChatGPT (OpenAI, 2026)
+# Prompt (summary): Present market-value comparisons and player
+# metrics with reusable Streamlit display helpers.
+# Usage: These tests check the AI-assisted chart data and formatting helpers.
+# -------------------------------------------------------------------------
+
 from ui_components import (
     _ranking_badge_color,
     format_eur,

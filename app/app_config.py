@@ -1,3 +1,11 @@
+# -------------------------------------------------------------------------
+# AI USAGE CITATION
+# Tool: ChatGPT (OpenAI, 2026)
+# Prompt (summary): Organize the Streamlit app's asset paths,
+# league badges, and club badge mappings in one configuration module.
+# Usage: Used AI assistance to structure the display configuration.
+# -------------------------------------------------------------------------
+
 """Static paths and display configuration for the Streamlit app."""
 
 from datetime import date

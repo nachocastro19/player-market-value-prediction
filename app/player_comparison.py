@@ -29,6 +29,15 @@ def _per_90(count: object, minutes: object) -> float | None:
     return float(count) * 90 / float(minutes)
 
 
+# -------------------------------------------------------------------------
+# AI USAGE CITATION
+# Tool: ChatGPT (OpenAI, 2026)
+# Prompt (summary): To enable player comparison feature on app,
+# find similar players in the same position
+# using age, playing time, and relevant performance rates.
+# Usage: Used AI assistance to build and compare position-aware features.
+# -------------------------------------------------------------------------
+
 def _similarity_features(players: pd.DataFrame, position: str) -> pd.DataFrame:
     """Build a small set of current-season profile features by position."""
     minutes = pd.to_numeric(players["current_minutes"], errors="coerce")
@@ -145,6 +154,14 @@ def _position_metric_keys(positions: set[str]) -> tuple[str, ...]:
         return ("clean_sheet_rate",)
     return ("goals_per_90", "assists_per_90", "contributions_per_90")
 
+
+# -------------------------------------------------------------------------
+# AI USAGE CITATION
+# Tool: ChatGPT (OpenAI, 2026)
+# Prompt (summary): Compare two or three players with metrics
+# suited to their positions and format the result for Streamlit.
+# Usage: Used AI assistance for the comparison table and display formatting.
+# -------------------------------------------------------------------------
 
 def build_comparison_table(players: pd.DataFrame) -> tuple[pd.DataFrame, str]:
     """Return one row per player and a note about metric limitations."""
