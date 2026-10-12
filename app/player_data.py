@@ -1,3 +1,11 @@
+# -------------------------------------------------------------------------
+# AI USAGE CITATION
+# Tool: ChatGPT (OpenAI, 2026)
+# Prompt (summary, not verbatim): Prepare player data for the Streamlit app,
+# including rankings, accent-insensitive search, and stable player links.
+# Usage: Used AI assistance for the discovery data and identifier helpers.
+# -------------------------------------------------------------------------
+
 from __future__ import annotations
 
 from collections.abc import Hashable

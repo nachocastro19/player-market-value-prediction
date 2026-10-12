@@ -1,3 +1,11 @@
+# -------------------------------------------------------------------------
+# AI USAGE CITATION
+# Tool: ChatGPT (OpenAI, 2026)
+# Prompt (summary): Build Streamlit discovery and player-detail
+# pages with search, comparison, scenario, and explanation features.
+# Usage: These tests check behavior of the AI-assisted app pages.
+# -------------------------------------------------------------------------
+
 import json
 from pathlib import Path
 

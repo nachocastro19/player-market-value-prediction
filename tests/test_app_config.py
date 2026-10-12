@@ -1,3 +1,11 @@
+# -------------------------------------------------------------------------
+# AI USAGE CITATION
+# Tool: ChatGPT (OpenAI, 2026)
+# Prompt (summary): Configure league and club badges for the
+# Streamlit app's current player dataset.
+# Usage: These tests check the AI-assisted badge configuration and coverage.
+# -------------------------------------------------------------------------
+
 from pathlib import Path
 
 import pandas as pd

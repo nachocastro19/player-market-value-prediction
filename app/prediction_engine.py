@@ -35,6 +35,14 @@ MODEL_WITH_HISTORY_PATH = (
     / "xgb_with_history_production.joblib"
 )
 
+# -------------------------------------------------------------------------
+# AI USAGE CITATION
+# Tool: ChatGPT (OpenAI, 2026)
+# Prompt (summary): Load and cache the current-season data,
+# production models, and feature metadata for a Streamlit app.
+# Usage: Used AI assistance for resource loading and caching.
+# -------------------------------------------------------------------------
+
 @st.cache_data
 def load_inference_data(path):
     """Load the static inference dataset once per app process."""
@@ -90,6 +98,14 @@ FEATURES_WITHOUT_HISTORY = (
 FEATURES_WITH_HISTORY = (
     metadata["features_with_history"]
 )
+
+# -------------------------------------------------------------------------
+# AI USAGE CITATION
+# Tool: ChatGPT (OpenAI, 2026)
+# Prompt (summary): Route players with a previous valuation to
+# the history model and other players to the fallback model, then return euros.
+# Usage: Used AI assistance to adapt the notebook prediction logic for the app.
+# -------------------------------------------------------------------------
 
 def predict_market_value(input_df):
     """
@@ -147,6 +163,14 @@ df["baseline_projected_market_value_in_eur"] = (
     .astype("Int64")
 )
 
+
+# -------------------------------------------------------------------------
+# AI USAGE CITATION
+# Tool: ChatGPT (OpenAI, 2026)
+# Prompt (summary): Apply user-selected season assumptions to a
+# player, recalculate dependent features, and predict the scenario value.
+# Usage: Used AI assistance for the scenario feature and prediction logic.
+# -------------------------------------------------------------------------
 
 def build_scenario(
     player_row,
@@ -504,6 +528,14 @@ def predict_scenario_by_player_id(
             round(predicted_value)
         ),
     }
+
+# -------------------------------------------------------------------------
+# AI USAGE CITATION
+# Tool: ChatGPT (OpenAI, 2026)
+# Prompt (summary): Explain a player's production prediction
+# with SHAP and map encoded model features back to readable feature names.
+# Usage: Used AI assistance for the app's local explanation pipeline.
+# -------------------------------------------------------------------------
 
 # ============================================
 # SHAP EXPLANATIONS

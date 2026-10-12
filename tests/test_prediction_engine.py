@@ -1,3 +1,11 @@
+# -------------------------------------------------------------------------
+# AI USAGE CITATION
+# Tool: ChatGPT (OpenAI, 2026)
+# Prompt (summary): Route predictions between the production
+# models and recalculate features when a user changes scenario inputs.
+# Usage: These tests check the AI-assisted prediction and scenario logic.
+# -------------------------------------------------------------------------
+
 import numpy as np
 import pandas as pd
 import pytest

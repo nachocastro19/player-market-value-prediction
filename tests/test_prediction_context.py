@@ -1,3 +1,11 @@
+# -------------------------------------------------------------------------
+# AI USAGE CITATION
+# Tool: ChatGPT (OpenAI, 2026)
+# Prompt (summary): Show whether a player prediction uses a
+# previous valuation and display its date when available.
+# Usage: These tests check the AI-assisted prediction-context display logic.
+# -------------------------------------------------------------------------
+
 import pandas as pd
 
 from prediction_context import prediction_context

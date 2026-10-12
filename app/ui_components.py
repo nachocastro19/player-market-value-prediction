@@ -94,6 +94,14 @@ def get_country_code(country_name: Any) -> str | None:
         return None
 
 
+# -------------------------------------------------------------------------
+# AI USAGE CITATION
+# Tool: ChatGPT (OpenAI, 2026)
+# Prompt (summary): Draw a football pitch in the Streamlit app
+# and mark a player's position using Altair.
+# Usage: Used AI assistance for the pitch visualization.
+# -------------------------------------------------------------------------
+
 def render_position_pitch(
     position: Any,
     sub_position: Any,
@@ -398,6 +406,14 @@ def prepare_market_value_chart_data(
     return pd.DataFrame(rows)
 
 
+# -------------------------------------------------------------------------
+# AI USAGE CITATION
+# Tool: ChatGPT (OpenAI, 2026)
+# Prompt (summary): Display current, baseline, and scenario
+# market values in a responsive visual comparison.
+# Usage: Used AI assistance for the custom chart and its display states.
+# -------------------------------------------------------------------------
+
 def display_market_value_comparison(
     current_value: Any,
     baseline_value: Any,
@@ -609,6 +625,14 @@ def _format_feature_value(value: Any) -> str:
         return f"{value:,.2f}"
     return str(value)
 
+
+# -------------------------------------------------------------------------
+# AI USAGE CITATION
+# Tool: ChatGPT (OpenAI, 2026)
+# Prompt (summary): Show the strongest positive and negative
+# SHAP drivers in compact and detailed Streamlit charts.
+# Usage: Used AI assistance for driver selection and chart presentation.
+# -------------------------------------------------------------------------
 
 def _top_shap_drivers(shap_df: pd.DataFrame, top_n: int) -> pd.DataFrame:
     return (

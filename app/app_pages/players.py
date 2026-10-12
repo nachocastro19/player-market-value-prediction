@@ -1,3 +1,11 @@
+# -------------------------------------------------------------------------
+# AI USAGE CITATION
+# Tool: ChatGPT (OpenAI, 2026)
+# Prompt (summary): Build a Streamlit player-discovery page with
+# branded visuals, player coverage metrics, and reusable badge images.
+# Usage: Used AI assistance for the page layout and image handling.
+# -------------------------------------------------------------------------
+
 from __future__ import annotations
 
 import base64
@@ -134,6 +142,14 @@ coverage_columns[3].metric(
     icon=":material/event_upcoming:",
     border=True,
 )
+
+# -------------------------------------------------------------------------
+# AI USAGE CITATION
+# Tool: ChatGPT (OpenAI, 2026)
+# Prompt (summary): Add searchable league, club, and position
+# filters and a player table to the Streamlit discovery page.
+# Usage: Used AI assistance for interactive filters and table presentation.
+# -------------------------------------------------------------------------
 
 st.subheader("Explore players", icon=":material/manage_search:")
 with st.container(border=True):
@@ -354,6 +370,14 @@ else:
     )
 
 st.space("medium")
+# -------------------------------------------------------------------------
+# AI USAGE CITATION
+# Tool: ChatGPT (OpenAI, 2026)
+# Prompt (summary): Let users search for and compare two or three
+# players side by side without changing the discovery filters.
+# Usage: Used AI assistance for the comparison controls and display.
+# -------------------------------------------------------------------------
+
 st.subheader("Compare players", icon=":material/compare_arrows:")
 with st.container(border=True):
     st.caption(

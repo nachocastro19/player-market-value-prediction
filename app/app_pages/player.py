@@ -1,3 +1,11 @@
+# -------------------------------------------------------------------------
+# AI USAGE CITATION
+# Tool: ChatGPT (OpenAI, 2026)
+# Prompt (summary): Build a Streamlit player-detail page with
+# player routing, profile data, valuation context, and cached explanations.
+# Usage: Used AI assistance for the page structure and state handling.
+# -------------------------------------------------------------------------
+
 import pandas as pd
 import streamlit as st
 
@@ -165,6 +173,14 @@ baseline_defaults = {
         default=1,
     ),
 }
+
+# -------------------------------------------------------------------------
+# AI USAGE CITATION
+# Tool: ChatGPT (OpenAI, 2026)
+# Prompt (summary): Keep scenario inputs and results separate
+# for each player and restore baseline values when the user resets the form.
+# Usage: Used AI assistance for Streamlit scenario session state.
+# -------------------------------------------------------------------------
 
 scenario_state_key = f"{player_key}_submitted_scenario"
 scenario_result_key = f"{player_key}_scenario_result"
@@ -512,6 +528,14 @@ if overview_tab.open:
                         st.caption(f"{age_text} · {performance_text}")
 
 
+# -------------------------------------------------------------------------
+# AI USAGE CITATION
+# Tool: ChatGPT (OpenAI, 2026)
+# Prompt (summary): Build a Streamlit scenario form for projected
+# performance and show how submitted assumptions change the model estimate.
+# Usage: Used AI assistance for form controls and scenario results.
+# -------------------------------------------------------------------------
+
 if scenario_tab.open:
     with scenario_tab:
         st.subheader("Scenario builder", icon=":material/science:")
@@ -750,6 +774,14 @@ if scenario_tab.open:
                             icon=":material/error:",
                         )
 
+
+# -------------------------------------------------------------------------
+# AI USAGE CITATION
+# Tool: ChatGPT (OpenAI, 2026)
+# Prompt (summary): Let users inspect SHAP drivers for the
+# baseline prediction or a submitted scenario on the player page.
+# Usage: Used AI assistance for the explanation view and caching flow.
+# -------------------------------------------------------------------------
 
 if drivers_tab.open:
     with drivers_tab:

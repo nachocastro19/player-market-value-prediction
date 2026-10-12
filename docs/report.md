@@ -477,7 +477,7 @@ Across the observed seasons, median market value rises from approximately €4 m
 
 The upward trend supports evaluating models with a chronological split, so performance is tested on a later season rather than relying only on a random split.
 
-![Distribution of player market values across historical seasons](image.png)
+![Distribution of player market values across historical seasons](images/image.png)
 
 Overall, the EDA supported transforming the target, preserving the time order in evaluation, and accounting for differences by age, position, performance, and club context. The strong relationship with previous valuation also motivated evaluating separate model routes for players with and without that information.
 
@@ -569,9 +569,9 @@ Performance on the held-out 2025/26 test season was:
 | XGBoost with previous value | **1.46** | **3.30** | **0.970** |
 
 
-![Actual versus predicted market value for the XGBoost model without previous valuation](image-2.png)
+![Actual versus predicted market value for the XGBoost model without previous valuation](images/image-2.png)
 
-![Actual versus predicted market value for the XGBoost model with previous valuation](image-1.png)
+![Actual versus predicted market value for the XGBoost model with previous valuation](images/image-1.png)
 
 The model using previous value substantially outperformed the version without it on the held-out season. This is consistent with the validation results, but also shows that much of the model’s predictive strength comes from the continuity of market valuations over time.
 
@@ -581,11 +581,11 @@ SHAP analysis (Lundberg & Lee, 2017; SHAP developers, n.d.) showed different pat
 
 **For the model without previous market value**, total minutes played and age were among the most influential features. Competition and club context, as well as player production measures such as goals and assists, also contributed to predictions.
 
-![SHAP summary for the XGBoost model without previous valuation, led by minutes and age](image-3.png)
+![SHAP summary for the XGBoost model without previous valuation, led by minutes and age](images/image-3.png)
 
 **For the model with previous market value**, historical value was the dominant feature. Age and minutes played were also influential, while goals, club context, and competition made smaller contributions. This model therefore behaves primarily like an updating model: it starts from the previous valuation and adjusts it based on other available information.
 
-![SHAP summary for the XGBoost model with previous valuation, dominated by historical value](image-4.png)
+![SHAP summary for the XGBoost model with previous valuation, dominated by historical value](images/image-4.png)
 
 ## 10.5 Error Analysis
 
@@ -612,7 +612,7 @@ The trained model is presented through an interactive Streamlit (Streamlit, Inc.
 
 The landing page provides a searchable player table, with filters for league, club, and position. It presents key player information and statistics to support browsing across the dataset. Selecting a player opens their individual profile.
 
-![TransferLens player discovery page with league filters and player table](image-5.png)
+![TransferLens player discovery page with league filters and player table](images/image-5.png)
 
 ## 11.2. Player Profile and Valuation
 
@@ -622,25 +622,25 @@ The estimate is generated using the model configuration appropriate to the playe
 
 Player photos and profile details provide context when the source data contains them. Club badges are sourced from the football-logos repository (luukhopman, n.d.); league badges are included with the application assets.
 
-![TransferLens player profile showing the projected market value and profile details](image-6.png)
+![TransferLens player profile showing the projected market value and profile details](images/image-6.png)
 
 ## 11.3. Prediction Context and Model Drivers
 
 The application provides context for the estimate, including the information and model approach used to produce it. Explanations of the model’s main drivers with SHAP help users understand which available factors are associated with higher or lower predictions. These explanations describe model behaviour; they do not establish that a particular factor caused a player’s valuation.
 
-![TransferLens model drivers view explaining a player's valuation estimate](image-8.png)
+![TransferLens model drivers view explaining a player's valuation estimate](images/image-8.png)
 
 ## 11.4. Scenario Builder
 
 The baseline projection uses current-season performance and projected end-of-season inputs. Users can adjust selected inputs to explore how a hypothetical change affects the model’s estimate. The scenario view presents the resulting value alongside the baseline and summarizes the change in the context of the selected inputs. Scenarios are what-if analyses, not forecasts of what will necessarily happen.
 
-![TransferLens scenario builder for adjusting projected player performance](image-7.png)
+![TransferLens scenario builder for adjusting projected player performance](images/image-7.png)
 
 ## 11.5. Player Comparison
 
 The application allows users to compare two or three players across estimated value, available valuation, playing time, and relevant performance statistics. This supports side-by-side benchmarking while retaining each player’s profile context. 
 
-![TransferLens side-by-side player comparison](image-9.png)
+![TransferLens side-by-side player comparison](images/image-9.png)
 
 ## 11.6. Intended Use and Limitations
 
@@ -708,35 +708,47 @@ The most important limitation is that the model predicts a subjective market-val
 
 ---
 
+# AI Usage Statement
+
+- **Tools Used:** ChatGPT (OpenAI, 2026).
+- **Purposes:** Brainstorming modeling choices, including the log transformation of market value and chronological validation; generating and refining code for the individual SHAP comparison in the modeling notebook; developing and refining the Streamlit application's features, interface, and code; creating the TransferLens visual identity; and improving the wording, clarity, and structure of this report.
+- **Prompts Used:** These are summaries, not the complete actual prompts: explore a log transformation for the skewed market-value target; create expanding-window validation folds; compare the best- and worst-predicted players using SHAP; build and refine the Streamlit app's data loading, player search and comparison, model routing, scenarios, explanations, visualizations, navigation, and asset configuration; create the TransferLens brand mark and wordmark; and improve the report's wording and structure.
+
+The citations in the test files refer to the AI-assisted application features those tests validate. Prompt descriptions in the files are summaries, not records of the exact prompts.
+
+The author reviewed and edited AI-assisted contributions, evaluated modeling suggestions during the analysis, and remains responsible for the application, analysis, and final text.
+
+---
+
 # References
+
+- Chen, T., & Guestrin, C. (2016). XGBoost: A scalable tree boosting system. *Proceedings of the 22nd ACM SIGKDD International Conference on Knowledge Discovery and Data Mining*. [https://doi.org/10.1145/2939672.2939785](https://doi.org/10.1145/2939672.2939785)
 
 - davidcariboo. (2026). *Football Data from Transfermarkt* [Data set]. Kaggle. [Dataset page](https://www.kaggle.com/datasets/davidcariboo/player-scores).
 
 - dcaribou. (2026). *transfermarkt-datasets* [GitHub repository]. [Repository](https://github.com/dcaribou/transfermarkt-datasets).
 
-- Chen, T., & Guestrin, C. (2016). XGBoost: A scalable tree boosting system. *Proceedings of the 22nd ACM SIGKDD International Conference on Knowledge Discovery and Data Mining*. [https://doi.org/10.1145/2939672.2939785](https://doi.org/10.1145/2939672.2939785)
+- FBref. (n.d.). *Big 5 European Leagues Stats*. [Statistics page](https://fbref.com/en/comps/Big5/Big-5-European-Leagues-Stats).
 
 - Lundberg, S. M., & Lee, S.-I. (2017). A unified approach to interpreting model predictions. *Advances in Neural Information Processing Systems, 30*. [Paper](https://papers.nips.cc/paper/2017/hash/8a20a8621978632d76c43dfd28b67767-Abstract.html).
 
-- Transfermarkt. (n.d.). *Market value definition*. [https://www.transfermarkt.com/navigation/mwdefinition](https://www.transfermarkt.com/navigation/mwdefinition)
+- luukhopman. (n.d.). *football-logos* [GitHub repository]. [Repository](https://github.com/luukhopman/football-logos).
 
-- FBref. (n.d.). *Big 5 European Leagues Stats*. [Statistics page](https://fbref.com/en/comps/Big5/Big-5-European-Leagues-Stats).
+- OpenAI. (2026). *ChatGPT* [Large language model]. [Product site](https://chatgpt.com/).
 
-- SoccerData developers. (n.d.). *SoccerData documentation*. [Documentation](https://soccerdata.readthedocs.io/en/latest/).
-  
 - pandas development team. (n.d.). *pandas documentation*. [Documentation](https://pandas.pydata.org/docs/).
 
 - scikit-learn developers. (n.d.). *Model selection and evaluation*. [Documentation](https://scikit-learn.org/stable/model_selection.html).
 
 - SHAP developers. (n.d.). *SHAP documentation*. [Documentation](https://shap.readthedocs.io/en/latest/).
 
-- XGBoost developers. (n.d.). *XGBoost documentation*. [Documentation](https://xgboost.readthedocs.io/en/stable/).
+- SoccerData developers. (n.d.). *SoccerData documentation*. [Documentation](https://soccerdata.readthedocs.io/en/latest/).
 
 - Streamlit, Inc. (n.d.). *Streamlit documentation*. [Documentation](https://docs.streamlit.io/).
 
-- luukhopman. (n.d.). *football-logos* [GitHub repository]. [Repository](https://github.com/luukhopman/football-logos).
+- Transfermarkt. (n.d.). *Market value definition*. [https://www.transfermarkt.com/navigation/mwdefinition](https://www.transfermarkt.com/navigation/mwdefinition)
 
-- OpenAI. (2026). *ChatGPT* [Large language model]. [Product site](https://chatgpt.com/).
+- XGBoost developers. (n.d.). *XGBoost documentation*. [Documentation](https://xgboost.readthedocs.io/en/stable/).
 
 # Appendices
 
@@ -1018,39 +1030,39 @@ The ML Role / Notes column identifies potential use in the modeling pipeline. Fi
 
 - Target variable distribution visualization
 
-![Distribution of raw end-of-season player market values](image-10.png)
+![Distribution of raw end-of-season player market values](images/image-10.png)
 
 - Log-transformed target variable distribution visualization
 
-![Distribution of log-transformed end-of-season player market values](image-11.png)
+![Distribution of log-transformed end-of-season player market values](images/image-11.png)
 
 - Player age distribution
 
-![Distribution of player ages in the modeling dataset](image-12.png)
+![Distribution of player ages in the modeling dataset](images/image-12.png)
 
 - Target variable distribution by position
 
-![Market-value distributions by primary playing position](image-13.png)
+![Market-value distributions by primary playing position](images/image-13.png)
 
 - Player height distribution
 
-![Distribution of player heights in the modeling dataset](image-14.png)
+![Distribution of player heights in the modeling dataset](images/image-14.png)
 
 - Minutes played vs market value
 
-![Minutes played versus player market value](image-15.png)
+![Minutes played versus player market value](images/image-15.png)
 
 - Goals vs market value
 
-![Goals scored versus player market value](image-16.png)
+![Goals scored versus player market value](images/image-16.png)
 
 - Total clean sheets vs market value
 
-![Clean-sheet totals versus player market value](image-17.png)
+![Clean-sheet totals versus player market value](images/image-17.png)
 
 - Market value by competition
 
-![Player market-value distributions by competition](image-18.png)
+![Player market-value distributions by competition](images/image-18.png)
 
 For additional EDA performed, please go to `01_eda_modeling_dataset`.
 
@@ -1099,11 +1111,3 @@ The model with previous valuation additionally used the log of previous market v
 ### Software versions
 
 The application was validated with Python 3.13.11. Application dependencies are recorded in `requirements.txt`; notebook, database, and test dependencies are recorded in `requirements-dev.txt`.
-
----
-
-# Use of Generative AI
-
-ChatGPT (OpenAI, 2026) was used in three parts of this project. It suggested testing a logarithmic transformation of the market-value target and using chronological validation folds. These suggestions were reviewed and evaluated during the analysis.
-
-ChatGPT was also used extensively to develop and refine the Streamlit application's features, interface, and code. It assisted with the wording, clarity, and structure of parts of this report. The author reviewed and edited these contributions and remains responsible for the application, analysis, and final text.

@@ -1,3 +1,11 @@
+# -------------------------------------------------------------------------
+# AI USAGE CITATION
+# Tool: ChatGPT (OpenAI, 2026)
+# Prompt (summary): Prepare player search and stable identifiers
+# for discovery and detail pages in the Streamlit app.
+# Usage: These tests check the AI-assisted search and player-key helpers.
+# -------------------------------------------------------------------------
+
 from pathlib import Path
 
 import pandas as pd

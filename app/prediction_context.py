@@ -1,3 +1,11 @@
+# -------------------------------------------------------------------------
+# AI USAGE CITATION
+# Tool: ChatGPT (OpenAI, 2026)
+# Prompt (summary, not verbatim): Show whether a player's prediction uses a
+# previous market value and format the available valuation date for display.
+# Usage: Used AI assistance for the prediction-context helper.
+# -------------------------------------------------------------------------
+
 """Human-readable context for a player's production prediction."""
 
 from __future__ import annotations
